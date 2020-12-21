@@ -67,12 +67,12 @@ const EditProductScreen = (props) => {
   });
 
   useEffect(() => {
-  if(error) {
-    Alert.alert('An error ocurred!', error, [{text: 'Ok'}])
-  }
-  }, [error])
+    if (error) {
+      Alert.alert("An error ocurred!", error, [{ text: "Ok" }]);
+    }
+  }, [error]);
 
-  const submitHandler = useCallback( async () => {
+  const submitHandler = useCallback(async () => {
     if (!formState.formIsValid) {
       Alert.alert("Wrong input!", "Please check the errors in the form.", [
         { text: "Okay" },
@@ -81,7 +81,7 @@ const EditProductScreen = (props) => {
     }
     setIsLoading(true);
     setError(null);
-    try{
+    try {
       if (editedProduct) {
         await dispatch(
           productsActions.updateProduct(
@@ -102,11 +102,10 @@ const EditProductScreen = (props) => {
         );
       }
       props.navigation.goBack();
+    } catch (err) {
+      setError(err.message);
     }
-    catch(err) {
-      setError(err.message)
-    }
-    setIsLoading(false)
+    setIsLoading(false);
   }, [dispatch, prodId, formState]);
 
   useEffect(() => {
@@ -125,13 +124,12 @@ const EditProductScreen = (props) => {
     [dispatchFormState]
   );
 
-  if(isLoading) {
+  if (isLoading) {
     <View style={styles.centered}>
-      <ActivityIndicator size='large' color={Colors.primary}/>
-    </View>
+      <ActivityIndicator size="large" color={Colors.primary} />
+    </View>;
   }
 
-  
 
   return (
     <KeyboardAvoidingView

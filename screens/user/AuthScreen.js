@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useCallback } from "react";
+import React, { useState, useEffect, useReducer, useCallback } from "react";
 import {
   ScrollView,
   View,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Button,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch } from "react-redux";
@@ -58,6 +59,12 @@ const AuthScreen = (props) => {
     formIsValid: false,
   });
 
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An Error Ocurred!", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
+
   const authHandler = async () => {
     let action;
     if (isSignup) {
@@ -75,10 +82,11 @@ const AuthScreen = (props) => {
     setIsLoading(true);
     try {
       await dispatch(action);
+      props.navigation.navigate("Shop");
     } catch (err) {
       setError(err.message);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const inputChangeHandler = useCallback(

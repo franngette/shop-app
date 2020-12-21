@@ -1,9 +1,10 @@
 import React from "react";
-import { FlatList, Platform, Button, Alert } from "react-native";
-import ProductItem from "../../components/shop/ProductItem";
+import { View, Text, FlatList, Button, Platform, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+
 import HeaderButton from "../../components/UI/HeaderButton";
+import ProductItem from "../../components/shop/ProductItem";
 import Colors from "../../constants/Colors";
 import * as productsActions from "../../store/actions/products";
 
@@ -28,9 +29,18 @@ const UserProductScreen = (props) => {
     ]);
   };
 
+  if (userProducts.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>No products found, maybe start creating some?</Text>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       data={userProducts}
+      keyExtractor={(item) => item.id}
       renderItem={(itemData) => (
         <ProductItem
           image={itemData.item.imageUrl}
@@ -50,9 +60,7 @@ const UserProductScreen = (props) => {
           <Button
             color={Colors.primary}
             title="Delete"
-            onPress={() => {
-              deleteHandler(itemData.item.id);
-            }}
+            onPress={deleteHandler.bind(this, itemData.item.id)}
           />
         </ProductItem>
       )}
