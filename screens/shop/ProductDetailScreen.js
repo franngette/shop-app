@@ -12,16 +12,11 @@ import Colors from "../../constants/Colors";
 import * as cartActions from "../../store/actions/cart";
 
 const ProductDetailScreen = (props) => {
-  const productId = props.navigation.getParam("productId");
+  const productId = props.route.params.productId;
   const selectedProduct = useSelector((state) =>
     state.products.availableProducts.find((prod) => prod.id === productId)
   );
 
-  ProductDetailScreen.navigationOptions = (navData) => {
-    return {
-      headerTitle: navData.navigation.getParam("productTitle"),
-    };
-  };
   const dispatch = useDispatch();
   return (
     <ScrollView>
@@ -39,6 +34,12 @@ const ProductDetailScreen = (props) => {
       <Text style={styles.description}>{selectedProduct.description}</Text>
     </ScrollView>
   );
+};
+
+export const screenOptions = (navData) => {
+  return {
+    headerTitle: navData.route.params.productTitle,
+  };
 };
 
 const styles = StyleSheet.create({
